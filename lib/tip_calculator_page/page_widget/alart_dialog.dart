@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 
 
 class AlartDialog extends StatelessWidget {
-  const AlartDialog({super.key});
+  TextEditingController coustomPercentController ;
+  
+  final Function(String) onChanged;
+   AlartDialog({super.key, required this.coustomPercentController,required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +55,8 @@ class AlartDialog extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: TextField(
+                          controller: coustomPercentController,
+                          onChanged: onChanged,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             // border: OutlineInputBorder()
@@ -80,9 +85,9 @@ class AlartDialog extends StatelessWidget {
 }
 
 
- openDialog(BuildContext context){
+ openDialog(BuildContext context,{required TextEditingController coustomPercentController, required Function(String) onChanged}){
  showDialog(context: context, builder: (context) {
-   return AlartDialog();
+   return AlartDialog(coustomPercentController: coustomPercentController,onChanged: onChanged,);
  },);
  }
 

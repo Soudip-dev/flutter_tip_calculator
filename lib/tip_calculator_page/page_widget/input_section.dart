@@ -3,7 +3,39 @@ import 'package:tip_calculator/tip_calculator_page/page_widget/alart_dialog.dart
 import 'package:tip_calculator/utils/app_colors.dart';
 
 class InputSection extends StatelessWidget {
-  const InputSection({super.key});
+  final TextEditingController billController;
+  final TextEditingController coustomPercentController;
+  final Function(String) onChanged;
+  final Function(String) onChangedd;
+  // final String parcentTip;
+  final String tenPercent ;
+  final String fifteenPercent ;
+  final String twentyPercent ;
+  final Function() onTapTen;
+  final Function() onTapFifteen;
+  final Function() onTapTwenty;
+  final Function() onPlusIncrement;
+  final Function() onMinusDecrement;
+  final int noPerson;
+  
+
+   InputSection({
+    Key?key,
+    required this.billController,
+    required this.coustomPercentController,
+    required this.onChanged,
+    required this.onChangedd,
+    required this.onPlusIncrement,
+    required this.onMinusDecrement,
+    required this. onTapTen,
+    required this.onTapFifteen,
+    required this.onTapTwenty,
+    required this.tenPercent,
+    required this.fifteenPercent,
+    required this.twentyPercent,
+    required this.noPerson,
+    // required this. parcentTip
+    }):super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +43,9 @@ class InputSection extends StatelessWidget {
           Column(
             children: [
 
-              textfield_section(context),
+              textfield_section(context,billController: billController, onChanged:onChanged ),
                SizedBox(height: 35,),
-               percenttip_section(context),
+               percenttip_section(context, ),
                SizedBox(height: 40,),
                
     Container(
@@ -46,25 +78,31 @@ class InputSection extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                    Container(
-                      
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10))
+                    InkWell(
+                      onTap: onMinusDecrement,
+                      child: Container(
+                        
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10))
+                        ),
+                        width: ((MediaQuery.of(context).size.width * 0.8) *0.70)*0.35,
+                        height: double.maxFinite,
+                        child :Center(child: Text("-",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 35)),),
                       ),
-                      width: ((MediaQuery.of(context).size.width * 0.8) *0.70)*0.35,
-                      height: double.maxFinite,
-                      child :Center(child: Text("-",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 35)),),
                     ),
-                    Text("22",style: TextStyle(color: Colors.black,fontFamily: 'PANICKO',fontWeight: FontWeight.bold,fontSize: 40),),
-                    Container(
-                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
-                        borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10))
+                    Text(noPerson.toString(),style: TextStyle(color: Colors.black,fontFamily: 'PANICKO',fontWeight: FontWeight.bold,fontSize: 40),),
+                    InkWell(
+                      onTap: onPlusIncrement,
+                      child: Container(
+                         decoration: BoxDecoration(
+                          color: AppColors.primaryColor,
+                          borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10))
+                        ),
+                        width: ((MediaQuery.of(context).size.width * 0.8) *0.70)*0.35,
+                        height: double.maxFinite,
+                        child :Center(child: Text("+",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 35)),),
                       ),
-                      width: ((MediaQuery.of(context).size.width * 0.8) *0.70)*0.35,
-                      height: double.maxFinite,
-                      child :Center(child: Text("+",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 35)),),
                     ),
                   ],)
                 )
@@ -76,7 +114,7 @@ class InputSection extends StatelessWidget {
        ;
   }
 
-  SizedBox percenttip_section(BuildContext context) {
+  SizedBox percenttip_section(BuildContext context,) {
     return SizedBox(
 
               // color: Colors.amber,
@@ -100,9 +138,11 @@ class InputSection extends StatelessWidget {
                       child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                      fixed_tip_section(parcentTip: "10%"),
-                      fixed_tip_section(parcentTip: "15%"),
-                      fixed_tip_section(parcentTip: "20%"),
+                      fixed_tip_section(onTap: onTapTen,tip: tenPercent,),
+                      fixed_tip_section(onTap: onTapFifteen,tip: fifteenPercent,),
+                      fixed_tip_section(onTap: onTapTwenty,tip: twentyPercent,),
+                      // fixed_tip_section(parcentTip: "15%"),
+                      // fixed_tip_section(parcentTip: "20%"),
                       
                      
                       
@@ -110,7 +150,7 @@ class InputSection extends StatelessWidget {
                     SizedBox(height: 10,),
                     InkWell(
                       onTap: (){
-                        openDialog(context);
+                        openDialog(context,coustomPercentController:coustomPercentController ,onChanged: onChangedd);
                       },
                       child: Container(decoration: BoxDecoration(
                         color: AppColors.primaryColor,
@@ -125,7 +165,10 @@ class InputSection extends StatelessWidget {
             ,);
   }
 
-  Container textfield_section(BuildContext context) {
+  Container textfield_section(BuildContext context,{
+    required TextEditingController billController,
+    required Function(String) onChanged
+  }) {
     return 
 
     Container(
@@ -161,6 +204,9 @@ class InputSection extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: TextField(
+                        controller: billController,
+                      
+                        onChanged: onChanged,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           // border: OutlineInputBorder()
@@ -175,12 +221,15 @@ class InputSection extends StatelessWidget {
  
   }
 
-    Container fixed_tip_section({required String parcentTip}) => Container(
-    height: 50,width: 75,
-    decoration: BoxDecoration( color: AppColors.primaryColor,borderRadius: BorderRadius.circular(10)),
-    child: Center(child: Text(parcentTip,
-    style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),
-    ),),
+    Widget fixed_tip_section({required String tip,required Function() onTap,}) => InkWell(
+      onTap: onTap,
+      child: Container(
+      height: 50,width: 75,
+      decoration: BoxDecoration( color: AppColors.primaryColor,borderRadius: BorderRadius.circular(10)),
+      child: Center(child: Text(tip,
+      style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),
+      ),),
+      ),
     );
 
 }

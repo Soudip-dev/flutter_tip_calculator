@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:tip_calculator/utils/app_colors.dart';
 
 class DisplayBillDetails extends StatelessWidget {
-  const DisplayBillDetails({super.key});
+  final String totalBill;
+  final String totalTip;
+  final String perHdTip;
+  const DisplayBillDetails({Key?key,required this.totalBill,required this.totalTip,required this.perHdTip}):super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class DisplayBillDetails extends StatelessWidget {
                       SizedBox(height: 12,),
                       RichText(text: TextSpan(children: [
                         TextSpan(text: "₹",style: TextStyle(fontFamily: 'PANICKO',fontSize: 40,color: Colors.black,fontWeight: FontWeight.bold)),
-                        TextSpan(text: '0000',style: TextStyle(fontFamily: 'PANICKO',fontSize: 50,color: Colors.black))
+                        TextSpan(text: perHdTip,style: TextStyle(fontFamily: 'PANICKO',fontSize: 50,color: Colors.black))
                       ]))
                     ],
                   ),
@@ -40,8 +43,8 @@ class DisplayBillDetails extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    bill_section(title: "Total Bill"),
-                    bill_section(title: "Total Tip"),
+                    bill_section(title: "Total Bill",totalBill: totalBill),
+                    bill_section(title: "Total Tip",totalBill: totalTip),
                   
                   ],),
                 )
@@ -52,14 +55,14 @@ class DisplayBillDetails extends StatelessWidget {
   }
 
 
-  Column bill_section({required String title}) {
+  Column bill_section({required String title,required String totalBill}) {
     return Column(
                   children: [
                     Text(title,style: TextStyle(fontWeight: FontWeight.w500,fontSize: 22),),
                     SizedBox(height: 8,),
                     RichText(text: TextSpan(children: [
                       TextSpan(text: "₹",style: TextStyle(fontFamily: 'PANICKO',fontSize: 25,color: AppColors.primaryColor,fontWeight: FontWeight.bold)),
-                      TextSpan(text: '0000',style: TextStyle(fontFamily: 'PANICKO',fontSize: 35,color: AppColors.primaryColor))
+                      TextSpan(text: totalBill,style: TextStyle(fontFamily: 'PANICKO',fontSize: 35,color: AppColors.primaryColor))
                     ]))
                   ],
                 );
